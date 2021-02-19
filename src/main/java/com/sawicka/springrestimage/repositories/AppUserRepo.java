@@ -1,6 +1,6 @@
-package com.sawicka.springrestimage.repo;
+package com.sawicka.springrestimage.repositories;
 
-import com.sawicka.springrestimage.model.AppUser;
+import com.sawicka.springrestimage.entities.AppUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,4 +1,4 @@
-package com.sawicka.springrestimage.model;
+package com.sawicka.springrestimage.entities;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

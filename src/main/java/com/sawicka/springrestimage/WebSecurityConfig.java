@@ -1,7 +1,7 @@
 package com.sawicka.springrestimage;
 
-import com.sawicka.springrestimage.model.AppUser;
-import com.sawicka.springrestimage.service.UserDetailsServiceImpl;
+import com.sawicka.springrestimage.entities.AppUser;
+import com.sawicka.springrestimage.services.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Bean;
@@ -30,7 +30,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/test1").authenticated()
+        http.authorizeRequests()
+                .antMatchers("/test1").hasRole("USER")
+                .antMatchers("/test2").hasRole("ADMIN")
                 .and().formLogin().permitAll();
     }
 
@@ -43,7 +45,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void generateNewUserInCaseOfEmptyDB(){
         AppUser appUser = new AppUser("ula",
                 passwordEncoder().encode("1234"),
-                "user");
+                "ROLE_USER");
         userDetailsService.saveAppUser(appUser);
+
+        AppUser appAdmin = new AppUser("ela",
+                passwordEncoder().encode("1234"),
+                "ROLE_ADMIN");
+        userDetailsService.saveAppUser(appAdmin);
     }
 }
