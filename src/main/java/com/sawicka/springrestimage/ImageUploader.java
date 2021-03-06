@@ -22,6 +22,10 @@ public class ImageUploader {
     }
 
     public String uploadFile(String path) {
+        if (path == null || path.isEmpty() || path.isBlank()) {
+            return null;
+        }
+
         File file = new File(path);
         Map uploadResult = null;
         try {
@@ -31,6 +35,5 @@ public class ImageUploader {
         }
         return uploadResult.get("url").toString();
     }
-
 
 }
