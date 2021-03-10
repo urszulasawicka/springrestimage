@@ -9,7 +9,7 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@Route("uploadImage")
+@Route("upload")
 public class UploadGui extends VerticalLayout {
 
     private ImageUploader imageUploader;
@@ -23,7 +23,7 @@ public class UploadGui extends VerticalLayout {
         Button button = new Button("Upload");
         button.addClickListener(buttonClickEvent ->
         {
-            String imageLocation = imageUploader.uploadFile(textField.getValue());
+            String imageLocation = imageUploader.uploadFileSaveToDB(textField.getValue());
             Image image = null;
             if (imageLocation != null) {
                 label.setText("Picture uploaded!");

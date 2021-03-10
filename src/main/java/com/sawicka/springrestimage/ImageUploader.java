@@ -2,6 +2,9 @@ package com.sawicka.springrestimage;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import com.sawicka.springrestimage.entities.Image;
+import com.sawicka.springrestimage.repositories.ImageRepo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -13,7 +16,11 @@ public class ImageUploader {
 
     private Cloudinary cloudinary;
 
-    public ImageUploader() {
+    private ImageRepo imageRepo;
+
+    @Autowired
+    public ImageUploader(ImageRepo imageRepo) {
+        this.imageRepo = imageRepo;
         cloudinary = new Cloudinary(ObjectUtils.asMap(
                 "cloud_name", "xxx",
                 "api_key", "xxx",
@@ -21,19 +28,22 @@ public class ImageUploader {
         ));
     }
 
-    public String uploadFile(String path) {
+    public String uploadFileSaveToDB(String path) {
         if (path == null || path.isEmpty() || path.isBlank()) {
             return null;
         }
 
         File file = new File(path);
         Map uploadResult = null;
+        String url = null;
         try {
             uploadResult = cloudinary.uploader().upload(file, ObjectUtils.emptyMap());
+            url = uploadResult.get("url").toString();
+            imageRepo.save(new Image(url));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return uploadResult.get("url").toString();
+        return url;
     }
 
 }
